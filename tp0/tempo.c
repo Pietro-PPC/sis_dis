@@ -87,7 +87,14 @@ int main(int argc, char *argv[])
       case test:
          if (status(processo[token].id) != 0)
             break; // se o processo está falho, não testa!
-         printf("Processo %d: estou testando no tempo %4.1f\n", token, time());
+
+         // Testa processo (Token + 1) % N e retorna status
+         int next = (token + 1) % N;
+         if (status(processo[next].id) != 0)
+            printf("Processo %d testou processo %d falho no tempo %4.1f\n", token, next, time());
+         else
+            printf("Processo %d testou processo %d correto no tempo %4.1f\n", token, next, time());
+
          schedule(test, 30.0, token);
          break;
       case fault:
