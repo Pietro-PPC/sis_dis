@@ -123,8 +123,28 @@ int main(int argc, char *argv[])
             }
             else
             {
-               printf("[tempo %5.1f] Processo %d testou processo %d correto\n", time(), token, next);
+               printf("[tempo %5.1f] Processo %d testou processo %d correto ", time(), token, next);
                processo[token].state[next] = 0;
+               int tokenIt = (next + 1) % N;
+
+               if (tokenIt != token)
+               {
+                  printf("e obteve informações sobre o(s) processo(s) ");
+               }
+               else
+               {
+                  printf("e não precisou obter informação sobre nenhum processo");
+               }
+               while (tokenIt != token)
+               {
+                  printf("%d", tokenIt);
+                  if (processo[next].state[tokenIt] != -1)
+                     processo[token].state[tokenIt] = processo[next].state[tokenIt];
+                  tokenIt = (tokenIt + 1) % N;
+                  if (tokenIt != token)
+                     printf(", ");
+               }
+               printf("\n");
                foundCorrect = 1;
             }
          };
@@ -136,17 +156,17 @@ int main(int argc, char *argv[])
 
          printf("[tempo %5.1f] Vetor state do processo %d: ", time(), token);
          printStateVector(&(processo[token]), N);
-         printf("\n");
+         printf("\n\n");
 
          schedule(test, 30.0, token);
          break;
       case fault:
          r = request(processo[token].id, token, 0);
-         printf("[tempo %5.1f] Socooorro!!! Sou o processo %d e estou falhando\n", time(), token);
+         printf("[tempo %5.1f] Socooorro!!! Sou o processo %d e estou falhando\n\n", time(), token);
          break;
       case recovery:
          release(processo[token].id, token);
-         printf("[tempo %5.1f] Viva!!! Sou o processo %d e acabo de recuperar\n", time(), token);
+         printf("[tempo %5.1f] Viva!!! Sou o processo %d e acabo de recuperar\n\n", time(), token);
          schedule(test, 1.0, token);
          break;
       } // switch
