@@ -18,8 +18,24 @@
 typedef struct
 {
    int id; // identificador de facility do SMPL
-   // outras variáveis locais dos processos são declaradas aqui!
+   int *state;
 } TipoProcesso;
+
+void printStateVector(TipoProcesso *p, int N)
+{
+   printf("[ ");
+   fflush(stdout);
+   for (int i = 0; i < N - 1; ++i)
+   {
+      printf("%2d, ", p->state[i]);
+   }
+
+   if (N > 0)
+   {
+      printf("%2d ", p->state[N - 1]);
+   }
+   printf("]");
+}
 
 TipoProcesso *processo;
 
@@ -54,6 +70,10 @@ int main(int argc, char *argv[])
       memset(fa_name, '\0', 5);
       sprintf(fa_name, "%d", i);
       processo[i].id = facility(fa_name, 1);
+
+      processo[i].state = (int *)malloc(sizeof(int) * N);
+      memset(processo[i].state, -1, sizeof(int) * N);
+      processo[i].state[i] = 0;
    }
    // vamos fazer o escalonamento inicial de eventos
 
@@ -95,14 +115,16 @@ int main(int argc, char *argv[])
          int next = (token + 1) % N;
          while (next != token && !foundCorrect)
          {
-         if (status(processo[next].id) != 0)
+            if (status(processo[next].id) != 0)
             {
                printf("[tempo %5.1f] Processo %d testou processo %d falho\n", time(), token, next);
+               processo[token].state[next] = 1;
                next = (next + 1) % N;
             }
             else
             {
                printf("[tempo %5.1f] Processo %d testou processo %d correto\n", time(), token, next);
+               processo[token].state[next] = 0;
                foundCorrect = 1;
             }
          };
@@ -111,6 +133,10 @@ int main(int argc, char *argv[])
          {
             printf("[tempo %5.1f] Processo %d é o único correto\n", time(), token);
          }
+
+         printf("[tempo %5.1f] Vetor state do processo %d: ", time(), token);
+         printStateVector(&(processo[token]), N);
+         printf("\n");
 
          schedule(test, 30.0, token);
          break;
