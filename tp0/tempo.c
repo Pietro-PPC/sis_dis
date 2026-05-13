@@ -67,7 +67,9 @@ int main(int argc, char *argv[])
       schedule(test, 30.0, i);
    }
    schedule(fault, 31.0, 1);
+   schedule(fault, 31.0, 2);
    schedule(recovery, 61.0, 1);
+   schedule(recovery, 91.0, 2);
 
    // agora vem o loop principal do simulador
 
@@ -79,9 +81,9 @@ int main(int argc, char *argv[])
    printf("           Tempo Total de Simulação = %d\n", MaxTempoSimulac);
    puts("===============================================================");
 
+   cause(&event, &token);
    while (time() < 150.0)
    {
-      cause(&event, &token);
       switch (event)
       {
       case test:
@@ -89,23 +91,39 @@ int main(int argc, char *argv[])
             break; // se o processo está falho, não testa!
 
          // Testa processo (Token + 1) % N e retorna status
+         int foundCorrect = 0;
          int next = (token + 1) % N;
+         while (next != token && !foundCorrect)
+         {
          if (status(processo[next].id) != 0)
-            printf("Processo %d testou processo %d falho no tempo %4.1f\n", token, next, time());
-         else
-            printf("Processo %d testou processo %d correto no tempo %4.1f\n", token, next, time());
+            {
+               printf("[tempo %5.1f] Processo %d testou processo %d falho\n", time(), token, next);
+               next = (next + 1) % N;
+            }
+            else
+            {
+               printf("[tempo %5.1f] Processo %d testou processo %d correto\n", time(), token, next);
+               foundCorrect = 1;
+            }
+         };
+
+         if (!foundCorrect)
+         {
+            printf("[tempo %5.1f] Processo %d é o único correto\n", time(), token);
+         }
 
          schedule(test, 30.0, token);
          break;
       case fault:
          r = request(processo[token].id, token, 0);
-         printf("Socooorro!!! Sou o processo %d  e estou falhando no tempo %4.1f\n", token, time());
+         printf("[tempo %5.1f] Socooorro!!! Sou o processo %d e estou falhando\n", time(), token);
          break;
       case recovery:
          release(processo[token].id, token);
-         printf("Viva!!! Sou o processo %d e acabo de recuperar no tempo %4.1f\n", token, time());
+         printf("[tempo %5.1f] Viva!!! Sou o processo %d e acabo de recuperar\n", time(), token);
          schedule(test, 1.0, token);
          break;
       } // switch
+      cause(&event, &token);
    } // while
 } // tempo.c
