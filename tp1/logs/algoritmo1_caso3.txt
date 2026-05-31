@@ -1,0 +1,32 @@
+===============================================================
+           Sistemas Distribuidos Prof. Elias
+     LOG do Trabalho Pratico 1, Algoritmo 1: Chang-Roberts
+   N=7 processos | cenario=3 | 7 candidato(s)
+   Candidatos: 0 1 2 3 4 5 6 
+===============================================================
+[Tempo   0.0] Processo 0 é candidato! Enviou mensagem com (id=0, cand) ao proximo nodo id=1
+[Tempo   0.0] Processo 1 é candidato! Enviou mensagem com (id=1, cand) ao proximo nodo id=2
+[Tempo   0.0] Processo 2 é candidato! Enviou mensagem com (id=2, cand) ao proximo nodo id=3
+[Tempo   0.0] Processo 3 é candidato! Enviou mensagem com (id=3, cand) ao proximo nodo id=4
+[Tempo   0.0] Processo 4 é candidato! Enviou mensagem com (id=4, cand) ao proximo nodo id=5
+[Tempo   0.0] Processo 5 é candidato! Enviou mensagem com (id=5, cand) ao proximo nodo id=6
+[Tempo   0.0] Processo 6 é candidato! Enviou mensagem com (id=6, cand) ao proximo nodo id=0
+[Tempo   1.0] Processo 1: recebeu mensagem do candidato 0 (id=0 < Lider=1): descartou a mensagem
+[Tempo   1.0] Processo 2: recebeu mensagem do candidato 1 (id=1 < Lider=2): descartou a mensagem
+[Tempo   1.0] Processo 3: recebeu mensagem do candidato 2 (id=2 < Lider=3): descartou a mensagem
+[Tempo   1.0] Processo 4: recebeu mensagem do candidato 3 (id=3 < Lider=4): descartou a mensagem
+[Tempo   1.0] Processo 5: recebeu mensagem do candidato 4 (id=4 < Lider=5): descartou a mensagem
+[Tempo   1.0] Processo 6: recebeu mensagem do candidato 5 (id=5 < Lider=6): descartou a mensagem
+[Tempo   1.0] Processo 0: recebeu mensagem do candidato 6 (id=6 > Lider=0): atualizou Lider=6 e repassou ao proximo nodo id=1
+[Tempo   2.0] Processo 1: recebeu mensagem do candidato 6 (id=6 > Lider=1): atualizou Lider=6 e repassou ao proximo nodo id=2
+[Tempo   3.0] Processo 2: recebeu mensagem do candidato 6 (id=6 > Lider=2): atualizou Lider=6 e repassou ao proximo nodo id=3
+[Tempo   4.0] Processo 3: recebeu mensagem do candidato 6 (id=6 > Lider=3): atualizou Lider=6 e repassou ao proximo nodo id=4
+[Tempo   5.0] Processo 4: recebeu mensagem do candidato 6 (id=6 > Lider=4): atualizou Lider=6 e repassou ao proximo nodo id=5
+[Tempo   6.0] Processo 5: recebeu mensagem do candidato 6 (id=6 > Lider=5): atualizou Lider=6 e repassou ao proximo nodo id=6
+[Tempo   7.0] Processo 6: recebeu de volta a sua propria mensagem (id=6): foi ELEITO LIDER!
+===============================================================
+                     RESULTADO DA ELEICAO
+   Lider eleito.......: processo 6
+   Total de mensagens.: 13
+   Tempo de simulacao.: 7 unidades de tempo
+===============================================================

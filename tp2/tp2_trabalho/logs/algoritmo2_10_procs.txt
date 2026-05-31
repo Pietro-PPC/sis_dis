@@ -1,0 +1,262 @@
+===============================================================
+           Sistemas Distribuidos Prof. Elias
+     LOG do Trabalho Pratico 1, Algoritmo 2
+   N=10 processos
+===============================================================
+[tempo   2.0] Mensagem recebida pelo processo 1: processo 0 tem bit 0
+[tempo   2.0] Mensagem recebida pelo processo 2: processo 1 tem bit 0
+[tempo   2.0] Mensagem recebida pelo processo 3: processo 2 tem bit 0
+[tempo   2.0] Mensagem recebida pelo processo 4: processo 3 tem bit 0
+[tempo   2.0] Mensagem recebida pelo processo 5: processo 4 tem bit 0
+[tempo   2.0] Mensagem recebida pelo processo 6: processo 5 tem bit 1
+[tempo   2.0] Mensagem recebida pelo processo 7: processo 6 tem bit 1
+[tempo   2.0] Mensagem recebida pelo processo 8: processo 7 tem bit 0
+[tempo   2.0] Mensagem recebida pelo processo 9: processo 8 tem bit 1
+[tempo   2.0] Mensagem recebida pelo processo 0: processo 9 tem bit 1
+[tempo   3.0] Mensagem recebida pelo processo 2: processo 0 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 3: processo 1 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 4: processo 2 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 5: processo 3 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 6: processo 4 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 7: processo 5 tem bit 1
+[tempo   3.0] Mensagem recebida pelo processo 8: processo 6 tem bit 1
+[tempo   3.0] Mensagem recebida pelo processo 9: processo 7 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 0: processo 8 tem bit 1
+[tempo   3.0] Mensagem recebida pelo processo 1: processo 9 tem bit 1
+[tempo   4.0] Mensagem recebida pelo processo 3: processo 0 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 4: processo 1 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 5: processo 2 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 6: processo 3 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 7: processo 4 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 8: processo 5 tem bit 1
+[tempo   4.0] Mensagem recebida pelo processo 9: processo 6 tem bit 1
+[tempo   4.0] Mensagem recebida pelo processo 0: processo 7 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 1: processo 8 tem bit 1
+[tempo   4.0] Mensagem recebida pelo processo 2: processo 9 tem bit 1
+[tempo   5.0] Mensagem recebida pelo processo 4: processo 0 tem bit 0
+[tempo   5.0] Mensagem recebida pelo processo 5: processo 1 tem bit 0
+[tempo   5.0] Mensagem recebida pelo processo 6: processo 2 tem bit 0
+[tempo   5.0] Mensagem recebida pelo processo 7: processo 3 tem bit 0
+[tempo   5.0] Mensagem recebida pelo processo 8: processo 4 tem bit 0
+[tempo   5.0] Mensagem recebida pelo processo 9: processo 5 tem bit 1
+[tempo   5.0] Mensagem recebida pelo processo 0: processo 6 tem bit 1
+[tempo   5.0] Mensagem recebida pelo processo 1: processo 7 tem bit 0
+[tempo   5.0] Mensagem recebida pelo processo 2: processo 8 tem bit 1
+[tempo   5.0] Mensagem recebida pelo processo 3: processo 9 tem bit 1
+[tempo   6.0] Mensagem recebida pelo processo 5: processo 0 tem bit 0
+[tempo   6.0] Mensagem recebida pelo processo 6: processo 1 tem bit 0
+[tempo   6.0] Mensagem recebida pelo processo 7: processo 2 tem bit 0
+[tempo   6.0] Mensagem recebida pelo processo 8: processo 3 tem bit 0
+[tempo   6.0] Mensagem recebida pelo processo 9: processo 4 tem bit 0
+[tempo   6.0] Mensagem recebida pelo processo 0: processo 5 tem bit 1
+[tempo   6.0] Mensagem recebida pelo processo 1: processo 6 tem bit 1
+[tempo   6.0] Mensagem recebida pelo processo 2: processo 7 tem bit 0
+[tempo   6.0] Mensagem recebida pelo processo 3: processo 8 tem bit 1
+[tempo   6.0] Mensagem recebida pelo processo 4: processo 9 tem bit 1
+[tempo   7.0] Mensagem recebida pelo processo 6: processo 0 tem bit 0
+[tempo   7.0] Mensagem recebida pelo processo 7: processo 1 tem bit 0
+[tempo   7.0] Mensagem recebida pelo processo 8: processo 2 tem bit 0
+[tempo   7.0] Mensagem recebida pelo processo 9: processo 3 tem bit 0
+[tempo   7.0] Mensagem recebida pelo processo 0: processo 4 tem bit 0
+[tempo   7.0] Mensagem recebida pelo processo 1: processo 5 tem bit 1
+[tempo   7.0] Mensagem recebida pelo processo 2: processo 6 tem bit 1
+[tempo   7.0] Mensagem recebida pelo processo 3: processo 7 tem bit 0
+[tempo   7.0] Mensagem recebida pelo processo 4: processo 8 tem bit 1
+[tempo   7.0] Mensagem recebida pelo processo 5: processo 9 tem bit 1
+[tempo   8.0] Mensagem recebida pelo processo 7: processo 0 tem bit 0
+[tempo   8.0] Mensagem recebida pelo processo 8: processo 1 tem bit 0
+[tempo   8.0] Mensagem recebida pelo processo 9: processo 2 tem bit 0
+[tempo   8.0] Mensagem recebida pelo processo 0: processo 3 tem bit 0
+[tempo   8.0] Mensagem recebida pelo processo 1: processo 4 tem bit 0
+[tempo   8.0] Mensagem recebida pelo processo 2: processo 5 tem bit 1
+[tempo   8.0] Mensagem recebida pelo processo 3: processo 6 tem bit 1
+[tempo   8.0] Mensagem recebida pelo processo 4: processo 7 tem bit 0
+[tempo   8.0] Mensagem recebida pelo processo 5: processo 8 tem bit 1
+[tempo   8.0] Mensagem recebida pelo processo 6: processo 9 tem bit 1
+[tempo   9.0] Mensagem recebida pelo processo 8: processo 0 tem bit 0
+[tempo   9.0] Mensagem recebida pelo processo 9: processo 1 tem bit 0
+[tempo   9.0] Mensagem recebida pelo processo 0: processo 2 tem bit 0
+[tempo   9.0] Mensagem recebida pelo processo 1: processo 3 tem bit 0
+[tempo   9.0] Mensagem recebida pelo processo 2: processo 4 tem bit 0
+[tempo   9.0] Mensagem recebida pelo processo 3: processo 5 tem bit 1
+[tempo   9.0] Mensagem recebida pelo processo 4: processo 6 tem bit 1
+[tempo   9.0] Mensagem recebida pelo processo 5: processo 7 tem bit 0
+[tempo   9.0] Mensagem recebida pelo processo 6: processo 8 tem bit 1
+[tempo   9.0] Mensagem recebida pelo processo 7: processo 9 tem bit 1
+[tempo  10.0] Mensagem recebida pelo processo 9: processo 0 tem bit 0
+[tempo  10.0] Mensagem recebida pelo processo 0: processo 1 tem bit 0
+[tempo  10.0] Mensagem recebida pelo processo 1: processo 2 tem bit 0
+[tempo  10.0] Mensagem recebida pelo processo 2: processo 3 tem bit 0
+[tempo  10.0] Mensagem recebida pelo processo 3: processo 4 tem bit 0
+[tempo  10.0] Mensagem recebida pelo processo 4: processo 5 tem bit 1
+[tempo  10.0] Mensagem recebida pelo processo 5: processo 6 tem bit 1
+[tempo  10.0] Mensagem recebida pelo processo 6: processo 7 tem bit 0
+[tempo  10.0] Mensagem recebida pelo processo 7: processo 8 tem bit 1
+[tempo  10.0] Mensagem recebida pelo processo 8: processo 9 tem bit 1
+[tempo  11.0] Mensagem recebida pelo processo 0: processo 0 tem bit 0
+[tempo  11.0] Mensagem recebida pelo processo 1: processo 1 tem bit 0
+[tempo  11.0] Mensagem recebida pelo processo 2: processo 2 tem bit 0
+[tempo  11.0] Mensagem recebida pelo processo 3: processo 3 tem bit 0
+[tempo  11.0] Mensagem recebida pelo processo 4: processo 4 tem bit 0
+[tempo  11.0] Mensagem recebida pelo processo 5: processo 5 tem bit 1
+[tempo  11.0] Mensagem recebida pelo processo 6: processo 6 tem bit 1
+[tempo  11.0] Mensagem recebida pelo processo 7: processo 7 tem bit 0
+[tempo  11.0] Mensagem recebida pelo processo 8: processo 8 tem bit 1
+[tempo  11.0] Mensagem recebida pelo processo 9: processo 9 tem bit 1
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 0
+[tempo  12.0] Processos candidatos: [  9,  8,  6,  5 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 1
+[tempo  12.0] Processos candidatos: [  9,  8,  6,  5 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 2
+[tempo  12.0] Processos candidatos: [  9,  8,  6,  5 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 3
+[tempo  12.0] Processos candidatos: [  9,  8,  6,  5 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 4
+[tempo  12.0] Processos candidatos: [  9,  8,  6,  5 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 5
+[tempo  12.0] Processos candidatos: [  9,  8,  6,  5 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 6
+[tempo  12.0] Processos candidatos: [  5,  9,  8,  6 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 7
+[tempo  12.0] Processos candidatos: [  6,  5,  9,  8 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 8
+[tempo  12.0] Processos candidatos: [  6,  5,  9,  8 ]
+[tempo  12.0] FIM DA RODADA 1 DO PROCESSO 9
+[tempo  12.0] Processos candidatos: [  8,  6,  5,  9 ]
+[tempo  13.0] Mensagem recebida pelo processo 1: processo 0 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 2: processo 1 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 3: processo 2 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 4: processo 3 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 5: processo 4 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 6: processo 5 tem bit 1
+[tempo  13.0] Mensagem recebida pelo processo 7: processo 6 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 8: processo 7 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 9: processo 8 tem bit 0
+[tempo  13.0] Mensagem recebida pelo processo 0: processo 9 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 2: processo 0 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 3: processo 1 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 4: processo 2 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 5: processo 3 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 6: processo 4 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 7: processo 5 tem bit 1
+[tempo  14.0] Mensagem recebida pelo processo 8: processo 6 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 9: processo 7 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 0: processo 8 tem bit 0
+[tempo  14.0] Mensagem recebida pelo processo 1: processo 9 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 3: processo 0 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 4: processo 1 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 5: processo 2 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 6: processo 3 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 7: processo 4 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 8: processo 5 tem bit 1
+[tempo  15.0] Mensagem recebida pelo processo 9: processo 6 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 0: processo 7 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 1: processo 8 tem bit 0
+[tempo  15.0] Mensagem recebida pelo processo 2: processo 9 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 4: processo 0 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 5: processo 1 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 6: processo 2 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 7: processo 3 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 8: processo 4 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 9: processo 5 tem bit 1
+[tempo  16.0] Mensagem recebida pelo processo 0: processo 6 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 1: processo 7 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 2: processo 8 tem bit 0
+[tempo  16.0] Mensagem recebida pelo processo 3: processo 9 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 5: processo 0 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 6: processo 1 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 7: processo 2 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 8: processo 3 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 9: processo 4 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 0: processo 5 tem bit 1
+[tempo  17.0] Mensagem recebida pelo processo 1: processo 6 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 2: processo 7 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 3: processo 8 tem bit 0
+[tempo  17.0] Mensagem recebida pelo processo 4: processo 9 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 6: processo 0 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 7: processo 1 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 8: processo 2 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 9: processo 3 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 0: processo 4 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 1: processo 5 tem bit 1
+[tempo  18.0] Mensagem recebida pelo processo 2: processo 6 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 3: processo 7 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 4: processo 8 tem bit 0
+[tempo  18.0] Mensagem recebida pelo processo 5: processo 9 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 7: processo 0 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 8: processo 1 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 9: processo 2 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 0: processo 3 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 1: processo 4 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 2: processo 5 tem bit 1
+[tempo  19.0] Mensagem recebida pelo processo 3: processo 6 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 4: processo 7 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 5: processo 8 tem bit 0
+[tempo  19.0] Mensagem recebida pelo processo 6: processo 9 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 8: processo 0 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 9: processo 1 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 0: processo 2 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 1: processo 3 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 2: processo 4 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 3: processo 5 tem bit 1
+[tempo  20.0] Mensagem recebida pelo processo 4: processo 6 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 5: processo 7 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 6: processo 8 tem bit 0
+[tempo  20.0] Mensagem recebida pelo processo 7: processo 9 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 9: processo 0 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 0: processo 1 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 1: processo 2 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 2: processo 3 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 3: processo 4 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 4: processo 5 tem bit 1
+[tempo  21.0] Mensagem recebida pelo processo 5: processo 6 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 6: processo 7 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 7: processo 8 tem bit 0
+[tempo  21.0] Mensagem recebida pelo processo 8: processo 9 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 0: processo 0 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 1: processo 1 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 2: processo 2 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 3: processo 3 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 4: processo 4 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 5: processo 5 tem bit 1
+[tempo  22.0] Mensagem recebida pelo processo 6: processo 6 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 7: processo 7 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 8: processo 8 tem bit 0
+[tempo  22.0] Mensagem recebida pelo processo 9: processo 9 tem bit 0
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 0
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 0 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 1
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 1 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 2
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 2 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 3
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 3 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 4
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 4 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 5
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 5 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 6
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 6 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 7
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 7 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 8
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 8 elegeu como líder o processo 5
+[tempo  23.0] FIM DA RODADA 2 DO PROCESSO 9
+[tempo  23.0] Processos candidatos: [  5 ]
+[tempo  23.0] O processo 9 elegeu como líder o processo 5
+===============================================================
+                     RESULTADO DA ELEICAO
+   Lider eleito.......: processo 5
+   Total de rodadas ..: 2
+   Total de mensagens.: 200
+   Tempo de simulacao.: 24 unidades de tempo
+===============================================================

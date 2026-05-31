@@ -1,0 +1,222 @@
+/* Autor: Elias P. Duarte Jr.
+   Data da Última Modificação: 11/abril/2024
+   Descrição: Nosso primeiro programa de simulação da disciplina Sistemas Distribuídos.
+     Vamos simular N processos, cada um conta o “tempo” independentemente
+    Um exemplo simples e significativo para captar o “espírito” da simulação */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "smpl.h"
+
+// Vamos definir os EVENTOS
+#define test 1
+#define fault 2
+#define recovery 3
+#define receive_bit 4
+
+// Eventos da simulação
+#define INICIA 10        // um candidato inicia a eleição enviando sua própria mensagem
+#define MENSAGEM 11      // chegada de uma mensagem de eleição a um processo
+#define INICIA_RODADA 12 // inicia uma nova rodada
+#define LIDER_ELEITO 13  // constante auxiliar para terminar algoritmo graciosamente
+
+#define TEMPO_MSG 1.0 // tempo de transmissão de uma mensagem entre dois processos vizinhos
+
+#define SEED_RAND 20L
+
+// Vamos definir o descritor do processo
+
+typedef struct
+{
+   int id;              // identificador de facility do SMPL
+   int bit;             // bit de decisão
+   int lider;           // id do processo lider
+   int rodada;          // numero da rodada
+   int *candidatos;     // vetor de candidatos
+   int tamCandidatos;   // tamanho do vetor de candidatos
+   int *recebeuRound;   // vetor de processos dos quais recebeu mensagem neste round
+   int tamRecebeuRound; // tamanho do vetor recebeuRound
+} TipoProcesso;
+
+TipoProcesso *processo;
+
+int proximoProcesso(int id, int N)
+{
+   return (id + 1) % N;
+}
+
+int criarTokenMensagem(int src, int dst, int bit, int N)
+{
+   int token = (src << 1) + bit; // concatena id do processo fonte com o seu bit
+   token = token * N + dst;      // codifica o destino no token
+   return token;
+}
+
+void decodificarTokenMensagem(int token, int *src, int *dst, int *bit, int N)
+{
+   *dst = token % N;  // o destino é o token mod N
+   token = token / N; // o token sem o destino
+   *bit = token & 1;  // o bit de decisão é o último bit do token sem o destino
+   *src = token >> 1; // a fonte é o token sem o destino e sem o bit de decisão
+}
+
+void imprimirArray(int *array, int N)
+{
+   printf("[ ");
+   for (int i = 0; i < N - 1; ++i)
+   {
+      printf("%2d, ", array[i]);
+   }
+
+   if (N > 0)
+   {
+      printf("%2d ", array[N - 1]);
+   }
+   printf("]");
+}
+
+int main(int argc, char *argv[])
+{
+   static int N, // número de processos
+       token,    // indica o processo que está executando
+       event, r, i,
+       totalMensagens = 0, // métrica: total de mensagens enviadas
+       liderEleito = -1,   // quando líder for eleito, assume valor do líder
+       totalRodadas = 0;
+
+   static char fa_name[5];
+
+   if (argc != 2)
+   {
+      puts("Uso correto: tempo <número de processos>");
+      exit(1);
+   }
+
+   N = atoi(argv[1]);
+
+   smpl(0, "Um Exemplo de Simulação");
+   reset();
+   stream(1);
+
+   // inicializar processos
+
+   processo = (TipoProcesso *)malloc(sizeof(TipoProcesso) * N);
+
+   for (i = 0; i < N; i++)
+   {
+      memset(fa_name, '\0', 5);
+      sprintf(fa_name, "%d", i);
+      processo[i].id = facility(fa_name, 1);
+      processo[i].lider = -1;
+      processo[i].bit = randomic(0, 1);
+      processo[i].rodada = -1;
+
+      processo[i].candidatos = (int *)malloc(sizeof(int) * N);
+      processo[i].tamCandidatos = 0;
+
+      processo[i].recebeuRound = (int *)malloc(sizeof(int) * N);
+      processo[i].tamRecebeuRound = 0;
+   }
+
+   for (i = 0; i < N; i++)
+   {
+      schedule(INICIA_RODADA, TEMPO_MSG, i);
+   }
+
+   // cabeçalho do log
+   puts("===============================================================");
+   puts("           Sistemas Distribuidos Prof. Elias");
+   puts("     LOG do Trabalho Pratico 1, Algoritmo 2");
+   printf("   N=%d processos\n", N);
+   puts("===============================================================");
+
+   cause(&event, &token);
+   while (liderEleito == -1) // roda a simulação por tempo suficiente para garantir que as mensagens possam circular pelo anel
+   {
+      switch (event)
+      {
+      case MENSAGEM:
+         int src, dst, bit;
+         decodificarTokenMensagem(token, &src, &dst, &bit, N);
+         // decodifica do token a fonte e seu bit de decisão.
+
+         printf("[tempo %5.1f] Mensagem recebida pelo processo %d: processo %d tem bit %d\n", time(), dst, src, bit);
+
+         if (bit == 1)
+         {
+            // se o bit de decisão da mensagem é 1, o processo receptor adiciona a fonte à sua lista de candidatos
+            processo[dst].candidatos[processo[dst].tamCandidatos++] = src;
+         }
+         processo[dst].recebeuRound[processo[dst].tamRecebeuRound++] = src;
+
+         if (src == dst) // mensagem deu a volta no anel e chegou novamente no processo. Sinal de que uma nova rodada pode se iniciar
+         {
+            schedule(INICIA_RODADA, TEMPO_MSG, dst);
+            break;
+         }
+
+         int tokenMensagem = criarTokenMensagem(src, proximoProcesso(dst, N), bit, N);
+         schedule(MENSAGEM, TEMPO_MSG, tokenMensagem);
+         totalMensagens++;
+         break;
+
+      case INICIA_RODADA:
+         // token = ID do processo que está rodando
+         int procAtual = token;
+
+         processo[procAtual].rodada++;
+         if (processo[procAtual].rodada > 0)
+         {
+            printf("[tempo %5.1f] FIM DA RODADA %d DO PROCESSO %d\n", time(), processo[procAtual].rodada, token);
+            printf("[tempo %5.1f] Processos candidatos: ", time());
+            imprimirArray(processo[procAtual].candidatos, processo[procAtual].tamCandidatos);
+            printf("\n");
+         }
+
+         if (processo[procAtual].tamCandidatos == 1) // Só há um processo candidato a líder
+         {
+            processo[procAtual].lider = processo[procAtual].candidatos[0];
+            if (totalRodadas < processo[procAtual].rodada)
+               totalRodadas = processo[procAtual].rodada;
+
+            printf("[tempo %5.1f] O processo %d elegeu como líder o processo %d\n", time(), procAtual, processo[procAtual].lider);
+            schedule(LIDER_ELEITO, TEMPO_MSG, processo[procAtual].lider);
+         }
+         else // Mais que um processo é candidato a líder ou nenhum é líder
+         {
+            if (processo[procAtual].tamCandidatos == 0)
+            {
+               if (processo[procAtual].rodada > 0)
+                  printf("[tempo %5.1f] Sem candidatos. Reiniciando algoritmo...\n", time());
+               processo[procAtual].bit = 1;
+            }
+
+            processo[procAtual].tamCandidatos = 0;
+            processo[procAtual].tamRecebeuRound = 0;
+            if (processo[procAtual].bit == 1)
+            {
+               processo[procAtual].bit = randomic(0, 1);
+            }
+
+            int token = criarTokenMensagem(procAtual, proximoProcesso(procAtual, N), processo[procAtual].bit, N);
+            schedule(MENSAGEM, TEMPO_MSG, token);
+            totalMensagens++;
+         }
+         break;
+      case LIDER_ELEITO:
+         liderEleito = token;
+         break;
+      } // switch
+
+      cause(&event, &token);
+   } // while
+
+   // métricas exigidas pelo enunciado
+   puts("===============================================================");
+   puts("                     RESULTADO DA ELEICAO");
+   printf("   Lider eleito.......: processo %d\n", liderEleito);
+   printf("   Total de rodadas ..: %d\n", totalRodadas);
+   printf("   Total de mensagens.: %d\n", totalMensagens);
+   printf("   Tempo de simulacao.: %.f unidades de tempo\n", time());
+   puts("===============================================================");
+} // tempo.c
