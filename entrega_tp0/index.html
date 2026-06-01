@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TP1 — Eleição de Líder em Anel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 860px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #222;
+        }
+
+        h1 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            margin-top: 38px;
+            border-left: 4px solid #555;
+            padding-left: 12px;
+        }
+
+        h3 {
+            margin-top: 26px;
+        }
+
+        p,
+        li {
+            line-height: 1.6;
+        }
+
+        a {
+            color: #0066cc;
+        }
+
+        code {
+            background: #f2f2f2;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 12px;
+            overflow-x: auto;
+            line-height: 1.35;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 16px 0;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .links a {
+            display: inline-block;
+            margin-right: 16px;
+            margin-bottom: 6px;
+        }
+
+        .nav {
+            margin-bottom: 24px;
+        }
+
+        hr {
+            margin: 38px 0;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
+
+        .destaque {
+            background: #fffbe6;
+            border: 1px solid #f0e0a0;
+            padding: 10px 14px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Trabalho Prático 0 — Roteiro de Aprendizado Prático de Simulação</h1>
+    <p>
+        <strong>Disciplina:</strong> Sistemas Distribuídos — UFPR 2026/1<br>
+        <strong>Professor:</strong> Elias P. Duarte Jr.<br>
+        <strong>Autor:</strong>Pietro Polinari Cavassin<br>
+        <strong>Simulador:</strong> SMPL (simulação a eventos discretos)
+    </p>
+    <p>
+        Este trabalho demonstra a progressão das tarefas para aprendizado de uso da linguagem de simulação SMPL.
+    </p>
+
+    <ul>
+        <li><strong>Tarefa 0:</strong> digitar, compilar e executar o programa exemplo, tempo.c </li>
+        <a href="arquivos/tempo0.c.txt">Implementação</a>
+
+        <li><strong>Tarefa 1:</strong> Fazer cada um dos processos testar o seguinte no anel. Implemente o teste com a
+            função status() do
+            SMPL e imprimir (printf) o resultado de cada teste executado. Por exemplo: “O processo i testou o processo j
+            correto no tempo tal.”</li>
+        <a href="arquivos/tempo1.c.txt">Implementação</a>
+
+        <li><strong>Tarefa 2:</strong> Cada processo correto executa testes até achar outro processo correto. Lembre-se
+            de tratar o caso
+            em que todos os demais processos estão falhos. Imprimir os testes e resultados.</li>
+        <a href="arquivos/tempo2.c.txt">Implementação</a>
+
+        <li><strong>Tarefa 3:</strong> Cada processo mantém localmente o vetor State[N]. A entrada do vetor State[j]
+            indica o estado do
+            processo j. O estado de cada processo pode ser: -1 (unknown), 0 (correto) ou 1 (falho). Inicialize (para
+            todos os processos) o State[N] com -1 (indicando estado “unknown”) para todos os demais processos e 0 para o
+            próprio processo. Nesta tarefa ao executar um teste em um processo j, o testador atualiza a entrada
+            correspondente no vetor State[j]. Em cada intervalo de testes, mostre o vetor State[N].</li>
+        <a href="arquivos/tempo3.c.txt">Implementação</a>
+
+        <li><strong>Tarefa 4:</strong> Quando um processo correto testa outro processo correto obtém as informações do
+            estado dos demais
+            processos do sistema, processos do sistema exceto aqueles que testou nesta rodada, além do próprio testador.
+        </li>
+        <a href="arquivos/tempo4.c.txt">Implementação</a>
+    </ul>
+</body>
+
+</html>

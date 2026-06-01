@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TP1 — Eleição de Líder em Anel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 860px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #222;
+        }
+
+        h1 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            margin-top: 38px;
+            border-left: 4px solid #555;
+            padding-left: 12px;
+        }
+
+        h3 {
+            margin-top: 26px;
+        }
+
+        p,
+        li {
+            line-height: 1.6;
+        }
+
+        a {
+            color: #0066cc;
+        }
+
+        code {
+            background: #f2f2f2;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 12px;
+            overflow-x: auto;
+            line-height: 1.35;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 16px 0;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .links a {
+            display: inline-block;
+            margin-right: 16px;
+            margin-bottom: 6px;
+        }
+
+        .nav {
+            margin-bottom: 24px;
+        }
+
+        hr {
+            margin: 38px 0;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
+
+        .destaque {
+            background: #fffbe6;
+            border: 1px solid #f0e0a0;
+            padding: 10px 14px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Trabalho Prático 1 — Dois Algoritmos para Eleição de Líder em Anel</h1>
+    <p>
+        <strong>Disciplina:</strong> Sistemas Distribuídos — UFPR 2026/1<br>
+        <strong>Professor:</strong> Elias P. Duarte Jr.<br>
+        <strong>Autores:</strong> Leonardo Krambeck e Pietro Polinari Cavassin<br>
+        <strong>Simulador:</strong> SMPL (simulação a eventos discretos)
+    </p>
+    <p>
+        Este trabalho implementa e compara dois algoritmos de eleição de líder em um anel
+        unidirecional (VRing): o <strong>Algoritmo 1</strong> (Chang-Roberts, baseado em candidatos)
+        e o <strong>Algoritmo 2</strong> (aleatorizado / Randomized Leader Election).
+    </p>
+
+    <hr>
+
+    <h1>Algoritmo 1: Eleição de Líder Chang-Roberts no Anel</h1>
+
+    <h2>1. O algoritmo de Chang-Roberts</h2>
+    <p>
+        O algoritmo de Chang-Roberts elege um líder entre N processos organizados em um
+        <strong>anel unidirecional</strong> (cada processo só envia mensagens ao seu sucessor).
+        Parte dos processos são <strong>candidatos</strong> a líder; o critério de eleição
+        adotado é o <strong>maior identificador</strong>.
+    </p>
+    <p>Cada processo mantém uma variável local <code>Lider</code>:</p>
+    <ul>
+        <li>Um <strong>candidato</strong> inicializa <code>Lider</code> com o próprio id;</li>
+        <li>Um <strong>não-candidato</strong> inicializa <code>Lider = -1</code> (não conhece líder ainda).</li>
+    </ul>
+    <p>As regras de processamento de uma mensagem que anuncia um candidato de id <code>idCand</code>:</p>
+    <ul>
+        <li>Se <code>idCand &gt; Lider</code>: atualiza <code>Lider = idCand</code> e <strong>repassa</strong> a
+            mensagem ao sucessor;</li>
+        <li>Se <code>idCand &le; Lider</code>: <strong>descarta</strong> a mensagem (ela não circula mais);</li>
+        <li>Se a mensagem que chega é a <strong>própria mensagem do processo</strong> (ela deu a volta completa no
+            anel), então ele é o <strong>líder eleito</strong> — todos os processos já a receberam.</li>
+    </ul>
+    <p>
+        Como apenas a mensagem do <em>maior</em> id nunca é descartada, somente ela completa a volta
+        no anel e retorna ao remetente — garantindo que exatamente um líder (o de maior id) seja eleito.
+    </p>
+
+    <h3>Ilustração do anel (N = 7)</h3>
+    <pre>
+        0 → 1 → 2 → 3
+        ↑           ↓
+        6 ← 5 ← ← ← 4
+
+  Mensagem circula sempre no sentido i → (i+1) mod N
+</pre>
+
+    <hr>
+
+    <h2>2. Modelagem no SMPL</h2>
+    <p>
+        O SMPL é um simulador a eventos discretos: o tempo avança de evento em evento.
+        Modelamos a eleição com dois eventos:
+    </p>
+    <ul>
+        <li><code>INICIA</code> — um candidato dispara a eleição enviando sua própria mensagem ao sucessor;</li>
+        <li><code>MENSAGEM</code> — a chegada de uma mensagem de eleição a um processo.</li>
+    </ul>
+    <p>
+        Cada salto de mensagem entre vizinhos é agendado com <code>schedule()</code> e consome
+        <code>TEMPO_MSG = 1.0</code> unidade de tempo, simulando a latência de transmissão.
+    </p>
+
+    <h3>Decisão-chave: codificar o payload no token</h3>
+    <p class="destaque">
+        O <code>schedule()</code> do SMPL transporta apenas <strong>um inteiro</strong> (o token), mas uma
+        mensagem precisa carregar <strong>duas</strong> informações: o <em>destino</em> e o <em>id do candidato</em>
+        anunciado. A solução foi empacotar os dois em um único inteiro, tratando-o como um número na base N:
+    </p>
+    <pre>
+  Codificação (no envio):   token = destino * N + idCandidato
+  Decodificação (na chegada): destino = token / N
+                              idCandidato = token % N
+</pre>
+    <p>
+        Como <code>idCandidato</code> sempre está em <code>0..N-1</code>, ele nunca transborda para o
+        "dígito" do destino, então a separação por divisão e resto é sempre exata.
+        Exemplo com N=7: o candidato 4 enviando ao sucessor 5 produz <code>token = 5*7 + 4 = 39</code>;
+        o processo 5 decodifica <code>39/7 = 5</code> (destino) e <code>39%7 = 4</code> (candidato).
+    </p>
+
+    <h3>Outras decisões</h3>
+    <ul>
+        <li><strong>Seleção de candidatos por cenário:</strong> o segundo argumento da linha de comando
+            escolhe o cenário (1 = único, 2 = aleatório, 3 = todos). No cenário aleatório, cada processo
+            é candidato com 50% de chance (via <code>ranf()</code> do SMPL), garantindo ao menos um candidato.</li>
+        <li><strong>Detecção de término:</strong> o laço principal roda enquanto <code>liderEleito == -1</code>.
+            Como a mensagem do maior id sempre retorna ao remetente, a eleição sempre termina — não é
+            necessário um limite de tempo artificial.</li>
+        <li><strong>Contagem de mensagens:</strong> a métrica <code>totalMensagens</code> é incrementada
+            a cada <code>schedule()</code> de uma <code>MENSAGEM</code> (envio inicial ou repasse). Mensagens
+            descartadas não geram novo envio, logo não são contadas.</li>
+        <li><strong>Versão sem falhas:</strong> esta implementação assume o anel confiável (sem processos
+            falhos). As <em>facilities</em> do SMPL são mantidas na estrutura como gancho para uma futura
+            versão tolerante a falhas, mas não são usadas aqui.</li>
+    </ul>
+
+    <hr>
+
+    <h2>3. Cenários de teste e métricas</h2>
+    <p>
+        Todos os testes foram executados com <strong>N = 7</strong> processos. As métricas exigidas
+        pelo enunciado — líder eleito, número de mensagens e tempo de simulação do SMPL — estão
+        resumidas abaixo, e os logs completos estão linkados.
+    </p>
+
+    <table>
+        <tr>
+            <th>Cenário</th>
+            <th>Candidatos</th>
+            <th>Líder eleito</th>
+            <th>Mensagens</th>
+            <th>Tempo SMPL</th>
+            <th>Log</th>
+        </tr>
+        <tr>
+            <td>1 — único candidato</td>
+            <td>0</td>
+            <td>0</td>
+            <td>7</td>
+            <td>7.0</td>
+            <td><a href="../logs/algoritmo1_caso1.txt">log</a></td>
+        </tr>
+        <tr>
+            <td>2 — aleatórios</td>
+            <td>1, 2, 3, 5</td>
+            <td>5</td>
+            <td>11</td>
+            <td>7.0</td>
+            <td><a href="../logs/algoritmo1_caso2.txt">log</a></td>
+        </tr>
+        <tr>
+            <td>3 — todos candidatos</td>
+            <td>0..6</td>
+            <td>6</td>
+            <td>13</td>
+            <td>7.0</td>
+            <td><a href="../logs/algoritmo1_caso3.txt">log</a></td>
+        </tr>
+    </table>
+
+    <h3>Análise</h3>
+    <ul>
+        <li><strong>Cenário 1:</strong> com um único candidato, a mensagem simplesmente dá a volta
+            completa no anel (N saltos), totalizando <strong>N = 7</strong> mensagens. É o caso trivial.</li>
+        <li><strong>Cenário 2:</strong> os candidatos de id menor (1 e 2) são descartados logo no primeiro
+            salto, ao chegarem em vizinhos de id maior. Apenas a mensagem do maior id (5) completa a volta.</li>
+        <li><strong>Cenário 3:</strong> com todos candidatos, no primeiro salto cada mensagem de id menor é
+            imediatamente absorvida pelo vizinho de id maior, restando apenas a do maior id (6) para
+            circular. O total observado foi de <code>2N − 1 = 13</code> mensagens para este arranjo.</li>
+    </ul>
+    <h3>Por que o tempo é sempre N (= 7)</h3>
+    <p class="destaque">
+        O tempo de simulação é <strong>idêntico (7.0) nos três casos</strong>, e isso não é coincidência.
+        O instante em que a eleição termina é determinado por um único fator: o momento em que a
+        <strong>mensagem do candidato de maior id</strong> completa uma <strong>volta inteira no anel</strong>
+        e retorna ao seu remetente. Essa volta tem sempre exatamente <strong>N saltos</strong>, pois a
+        mensagem vencedora visita todos os N processos e volta — independentemente de quem vence ou de
+        quantos candidatos existem.
+    </p>
+    <p>
+        Como <strong>todos os candidatos lançam sua candidatura no mesmo instante (tempo 0)</strong> e cada
+        salto custa <code>TEMPO_MSG = 1.0</code>, o tempo total é sempre:
+    </p>
+    <pre>
+  tempo total = N saltos × TEMPO_MSG = 7 × 1.0 = 7.0
+</pre>
+    <p>
+        Note a <strong>independência entre tempo e número de mensagens</strong>: acrescentar candidatos
+        aumenta o <em>tráfego</em> (7, 11 e 13 mensagens nos três cenários), mas não a <em>latência</em>
+        (sempre 7.0), porque as mensagens viajam em paralelo, no mesmo ritmo, e os candidatos perdedores
+        são absorvidos sem segurar o vencedor. O tempo só mudaria se N ou <code>TEMPO_MSG</code> mudassem
+        — com outro N, o tempo seria exatamente esse novo N.
+    </p>
+    <p>
+        Em termos de <strong>número de mensagens</strong>, o algoritmo é O(N) no melhor caso e O(N²) no pior
+        caso (quando os ids estão dispostos em ordem decrescente ao redor do anel, fazendo cada mensagem
+        viajar muitos saltos antes de ser descartada); o caso médio é O(N log N).
+    </p>
+
+    <hr>
+
+    <h2>4. Como compilar e executar</h2>
+    <p>
+        Mantendo todos os arquivos (<code>algoritmo1.c</code>, <code>smpl.c</code>, <code>smpl.h</code>
+        e <code>rand.c</code>) no mesmo diretório, compile com:
+    </p>
+    <pre>
+  gcc -o algoritmo1 algoritmo1.c smpl.c rand.c -lm
+</pre>
+    <p>
+        A execução recebe dois argumentos: o número de processos <code>N</code> e o
+        <code>cenário</code> de teste (1 = único candidato, 2 = aleatório, 3 = todos candidatos):
+    </p>
+    <pre>
+  ./algoritmo1 &lt;N&gt; &lt;cenario&gt;
+</pre>
+
+    <h2>5. Código-fonte e logs</h2>
+    <div class="links">
+        <a href="algoritmo1.c.txt">Código-fonte comentado (algoritmo1.c.txt)</a>
+        <a href="../logs/algoritmo1_caso1.txt">Log — cenário 1 (único)</a>
+        <a href="../logs/algoritmo1_caso2.txt">Log — cenário 2 (aleatório)</a>
+        <a href="../logs/algoritmo1_caso3.txt">Log — cenário 3 (todos)</a>
+    </div>
+
+    <hr>
+
+    <h1>Algoritmo 2: Eleição de Líder Aleatorizada (Randomized) no Anel</h1>
+
+
+    <h2>1. Ideia geral do algoritmo aleatorizado</h2>
+    <p>
+        O <strong>Algoritmo Aleatorizado de Eleição de Líder no Anel (VRing)</strong> utiliza rodadas
+        sucessivas para reduzir o conjunto de candidatos até sobrar apenas um líder. A cada rodada,
+        cada processo candidato sorteia um bit aleatório:
+    </p>
+    <ul>
+        <li><code>bit = 1</code> &rarr; o processo continua na disputa e torna-se candidato da rodada;</li>
+        <li><code>bit = 0</code> &rarr; o processo desiste da rodada e permanece apenas encaminhando mensagens.</li>
+    </ul>
+    <p>
+        Cada processo informa ao anel seu <code>id</code> e o
+        bit sorteado na rodada atual. Quando a mensagem completa o anel, todos os processos daquela
+        rodada conhecem os bits dos participantes restantes.
+        O algoritmo termina quando restar exatamente <strong>um processo com bit = 1</strong>; esse
+        processo é declarado líder.
+    </p>
+
+    <h2>2. Estratégia de implementação</h2>
+    <p>
+        Para representar o anel, cada processo conhece apenas o seu sucessor:
+        <code>proximoProcesso(i, N) = (i + 1) mod N</code>.
+        Assim, cada mensagem sempre avança um único passo no sentido do anel, até completar uma volta.
+    </p>
+
+    <p>
+        O estado local de cada processo é mantido em uma estrutura com as seguintes informações:
+    </p>
+    <ul>
+        <li><strong>id</strong>: identificador do processo no SMPL;</li>
+        <li><strong>bit</strong>: bit atual sorteado na rodada;</li>
+        <li><strong>lider</strong>: líder conhecido até o momento;</li>
+        <li><strong>rodada</strong>: número da rodada em andamento;</li>
+        <li><strong>candidatos</strong>: lista dos processos que permaneceram na disputa;</li>
+        <li><strong>recebeuRound</strong>: controle dos processos já vistos nesta rodada.</li>
+    </ul>
+
+    <h3>Codificação da mensagem</h3>
+    <p class="destaque">
+        Como o <code>schedule()</code> do SMPL transporta apenas um inteiro como token, foi necessário
+        empacotar as informações da mensagem em um único valor. Para isso, o token foi usado como um
+        "registro compacto", contendo os campos necessários para reconstruir a mensagem na chegada.
+    </p>
+    <pre>
+token = ((src * N) + dst) * 2 + bit
+
+Decodificação:
+  bit = token % 2
+  token = token / 2
+  dst = token % N
+  src = token / N
+</pre>
+    <p>
+        Essa representação permite carregar, ao mesmo tempo, a origem, o destino e o bit sorteado na
+        rodada, sem alterar o núcleo do SMPL.
+    </p>
+
+    <h2>3. Funcionamento por rodadas</h2>
+    <p>
+        O algoritmo foi organizado em três fases principais:
+    </p>
+    <ol>
+        <li><strong>Fechamento da rodada atual e início de uma nova:</strong>
+            Na primeira rodada, pula-se direto ao início de uma rodada, onde todo processo com bit 1 sorteia um bit novo
+            aleatório e inicia-se a circulação das mensagens.
+            No fechamento da rodada, os processos verificam quantos candidatos ainda possuem o bit 1. Se houver mais de
+            um, uma nova rodada começa; se houver apenas um, a eleição termina e o líder é eleito.
+        <li><strong>Circulação da mensagem:</strong> cada processo recebe informações e as encaminha aos sucessores,
+            carregando o id e o bit da rodada. Quando um processo recebe mensagens de todos os outros, termina-se a
+            rodada.</li>
+    </ol>
+
+    <p>
+        Na primeira rodada, todos os <code>N</code> processos participam. A partir da segunda rodada,
+        somente os processos cujo bit vale <code>1</code> continuam concorrendo. Isso faz com que o
+        número de candidatos diminua rapidamente com o avanço das rodadas.
+    </p>
+
+    <h3>Critério de término</h3>
+    <p>
+        A eleição termina quando o número de candidatos ativos é igual a 1. Nesse momento, o processo
+        restante é anunciado como líder. Caso todos os bits de uma rodada sejam zero, a rodada é repetida
+        com nova amostragem, garantindo progresso probabilístico.
+    </p>
+
+    <h2>4. Métricas coletadas</h2>
+    <p>
+        O relatório pede três resultados principais para cada execução:
+    </p>
+    <ul>
+        <li><strong>Líder eleito:</strong> qual processo venceu a eleição;</li>
+        <li><strong>Quantidade de mensagens:</strong> número total de transmissões realizadas até o fim;</li>
+        <li><strong>Tempo SMPL:</strong> tempo lógico total consumido pela simulação.</li>
+    </ul>
+
+    <p>
+        Para contabilizar mensagens, o simulador incrementa um contador sempre que agenda uma nova
+        mensagem de eleição. O tempo final é obtido diretamente por <code>time()</code> no instante em
+        que a eleição termina.
+    </p>
+
+    <p>
+        Em uma implementação como esta, o tempo do SMPL cresce de acordo com o número de saltos do anel
+        necessários para propagar as rodadas. Já o número de mensagens depende fortemente de quantos
+        processos continuam com <code>bit = 1</code> a cada rodada.
+    </p>
+
+    <h2>5. Testes com diferentes valores de N</h2>
+    <p>
+        A tabela abaixo resume os experimentos realizados. Os valores devem ser preenchidos com os
+        resultados obtidos na execução do programa, destacando o líder eleito em cada caso.
+    </p>
+
+    <table>
+        <tr>
+            <th>N</th>
+            <th>Rodadas</th>
+            <th>Líder eleito</th>
+            <th>Mensagens</th>
+            <th>Tempo SMPL</th>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>1</td>
+            <td>1</td>
+            <td>9</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>3</td>
+            <td>2</td>
+            <td>147</td>
+            <td>26</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>2</td>
+            <td>5</td>
+            <td>200</td>
+            <td>24</td>
+        </tr>
+    </table>
+    <p>
+        Note que, pela natureza aleatorizada do algoritmo, o caso com 7 processos terminou em
+        mais rodadas e em maior tempo que o com 10 processos.
+    </p>
+
+    <h2>6. Como executar</h2>
+    <p>
+        A aplicação foi compilada junto com o SMPL e executada informando o número de processos do anel.
+        Em cada execução, o programa imprime os eventos principais, o líder eleito, a quantidade total
+        de mensagens e o tempo total da simulação.
+    </p>
+
+    <pre>
+  make
+  ./tempo &lt;N&gt;
+</pre>
+
+    <h2>7. Conclusão</h2>
+    <p>
+        O algoritmo aleatorizado mostra uma forma simples e elegante de resolver a eleição de líder em
+        anel quando não se deseja depender de um critério determinístico como o maior identificador.
+        A cada rodada, a competição é reduzida por sorteio, até que apenas um processo permaneça ativo.
+        Quando, por chance, nenhum processo está mais ativo, reinicia-se a escolha até que se reduza a
+        apenas um processo.
+    </p>
+
+    <div class="links">
+        <a href="algoritmo2.c.txt">Código-fonte comentado (algoritmo2.c.txt)</a>
+        <a href="../logs/algoritmo2_N3.txt">Log — N=3</a>
+        <a href="../logs/algoritmo2_N7.txt">Log — N=7</a>
+        <a href="../logs/algoritmo2_N10.txt">Log — N=10</a>
+    </div>
+
+    <hr>
+
+</body>
+
+</html>

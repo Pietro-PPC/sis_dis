@@ -1,0 +1,30 @@
+===============================================================
+           Sistemas Distribuidos Prof. Elias
+     LOG do Trabalho Pratico 1, Algoritmo 2
+   N=3 processos
+===============================================================
+[tempo   2.0] Mensagem recebida pelo processo 1: processo 0 tem bit 0
+[tempo   2.0] Mensagem recebida pelo processo 2: processo 1 tem bit 1
+[tempo   2.0] Mensagem recebida pelo processo 0: processo 2 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 2: processo 0 tem bit 0
+[tempo   3.0] Mensagem recebida pelo processo 0: processo 1 tem bit 1
+[tempo   3.0] Mensagem recebida pelo processo 1: processo 2 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 0: processo 0 tem bit 0
+[tempo   4.0] Mensagem recebida pelo processo 1: processo 1 tem bit 1
+[tempo   4.0] Mensagem recebida pelo processo 2: processo 2 tem bit 0
+[tempo   5.0] FIM DA RODADA 1 DO PROCESSO 0
+[tempo   5.0] Processos candidatos: [  1 ]
+[tempo   5.0] O processo 0 elegeu como líder o processo 1
+[tempo   5.0] FIM DA RODADA 1 DO PROCESSO 1
+[tempo   5.0] Processos candidatos: [  1 ]
+[tempo   5.0] O processo 1 elegeu como líder o processo 1
+[tempo   5.0] FIM DA RODADA 1 DO PROCESSO 2
+[tempo   5.0] Processos candidatos: [  1 ]
+[tempo   5.0] O processo 2 elegeu como líder o processo 1
+===============================================================
+                     RESULTADO DA ELEICAO
+   Lider eleito.......: processo 1
+   Total de rodadas ..: 1
+   Total de mensagens.: 9
+   Tempo de simulacao.: 6 unidades de tempo
+===============================================================

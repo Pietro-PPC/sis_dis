@@ -1,6 +1,6 @@
 /* Autores: Leonardo Krambeck e Pietro Polinari Cavassin
    Baseado no exemplo tempo.c do Prof. Elias P. Duarte Jr.
-   TP1 — Algoritmo 1: Eleição de Líder Chang-Roberts no anel (VRing)
+   TP1 — Algoritmo 2: Eleição de Líder aleatorizada no anel (VRing)
    Sistemas Distribuídos UFPR 2026/1
 
    Versão SEM FALHAS. N processos (ids 0..N-1) em anel unidirecional.
